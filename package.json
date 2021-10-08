@@ -76,7 +76,7 @@
   "dependencies": {
     "countly-sdk-nodejs": "^20.11.0",
     "electron-serve": "^1.1.0",
-    "electron-store": "^8.0.0",
+    "electron-store": "^8.0.1",
     "electron-updater": "4.3.9",
     "fix-path": "^3.0.0",
     "fs-extra": "^10.0.0",
