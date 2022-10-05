@@ -2,12 +2,179 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [v0.16.3] - 2021-09-08
+
+- IPFS: [`go-ipfs v0.9.1`](https://github.com/ipfs/go-ipfs/releases/tag/v0.9.1)
+- UI: [`v2.13.0`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.13.0)
+
+### 🛠 Fixes and Maintenance
+
+- feat: ipfs-webui v2.13.0 (#1903)
+- feat: allow to show devtools (#1901)
+- chore: update non-major dependencies (#1895)
+- fix: use context bridge (#1894)
+- docs: FreeBSD Linux Binary Compatibility (#1878)
+- docs: debian 11 troubleshooting (b8044741aeb365f773f9c6f78dadbd26e1083963)
+- chore: update maintainer AUR (#1880)
+- chore(i18n):  locale sync
+
+## [v0.16.2] - 2021-07-23
+
+- IPFS: [`go-ipfs v0.9.1`](https://github.com/ipfs/go-ipfs/releases/tag/v0.9.1)
+- UI: [`v2.12.4`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.12.4)
+
+### 🛠 Fixes and Maintenance
+
+- fix: go-ipfs 0.9.1 (#1876)
+- chore: electron v13.1.7 (43da717df49812cbddd067e8521da42d849b8f6c)
+- chore(i18n):  locale sync
+
+## [v0.16.1] - 2021-07-06
+
+- IPFS: [`go-ipfs v0.9.0`](https://github.com/ipfs/go-ipfs/releases/tag/v0.9.0)
+- UI: [`v2.12.4`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.12.4)
+
+### 🛠 Fixes and Maintenance
+
+- fix: ipfs-webui v2.12.4 (#1868)
+- fix: dont pin when adding to mfs (#1860)
+- fix: show Files after import on windows (#1853)
+- fix: choco publishing
+- chore(i18n):  locale sync
+
+## [v0.16.0] - 2021-06-23
+
+- IPFS: [`go-ipfs v0.9.0`](https://github.com/ipfs/go-ipfs/releases/tag/v0.9.0)
+- UI: [`v2.12.3`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.12.3)
+
+### ✨ Features
+
+- go-ipfs 0.9.0 ([RELEASE NOTES](https://github.com/ipfs/go-ipfs/releases/tag/v0.9.0))
+
+### 🛠 Fixes and Maintenance
+
+- electron 13.x (+ new electron-builder/updater)
+- chore(i18n):  locale sync
+
+## [v0.15.1] - 2021-06-17
+
+- IPFS: [`go-ipfs v0.8.0`](https://github.com/ipfs/go-ipfs/releases/tag/v0.8.0)
+- UI: [`v2.12.3`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.12.3)
+
+### 🛠 Fixes and Maintenance
+
+- fix: ipfs-webui  [`v2.12.3`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.12.3)
+- fix: useful errors on download fail (#1843)
+- chore(i18n): locale sync
+
+## [v0.15.0] - 2021-05-04
+
+- IPFS: [`go-ipfs v0.8.0`](https://github.com/ipfs/go-ipfs/releases/tag/v0.8.0)
+- UI: [`v2.12.2`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.12.2) 
+
+### ✨ Features
+
+- ipfs webui v2.12 with basic support for remote pinning (#1807)
+  👉️ see [RELEASE NOTES for v2.12](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.12.0) for details
+- electron 12.x (#1807)
+
+### 🛠 Fixes and Maintenance
+
+- fix: ipfs-on-path should never fail on boot (#1769)
+- docs(readme): fix scoop install steps (#1808) 
+- docs: promote AppImage for Linux (#1776) 
+- chore: switch actions to v2 (#1708) 
+- chore(i18n): i18next update and locale sync
+
+
+## [v0.14.0] - 2021-01-02
+
+- IPFS: [`go-ipfs v0.8.0`](https://github.com/ipfs/go-ipfs/releases/tag/v0.8.0)
+- UI: [`v2.11.4`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.11.4)
+
+### ✨ Features
+
+- go-ipfs 0.8.0 (#1715 +  [RELEASE NOTES](https://github.com/ipfs/go-ipfs/releases/tag/v0.8.0))
+- electron 11.x (#1715)
+- improve updating ux (#1758) 
+- enable ipns over pubsub via settings menu (#1739)
+- disable/enable gc via settings menu (#1740)
+- enable pubsub via settings menu (#1735)
+
+### 🛠 Fixes and Maintenance
+
+- fix: timeout during checkIfAddrIsDaemon (#1750)
+- fix: default Open WebUI at Launch to true (#1757) 
+- fix: autoupdate only on supported platforms (#1698) 
+- fix:  specify content-type in prompt template (#1729)
+- fix: use correct config path during development (#1690) 
+- fix(mac): refresh file list after import (#1767)
+- refactor: tray click events (#1766)
+- chore: deprecate ipfs-on-path (#1768) and npm-on-ipfs (17578745addb6c665b0c3a3e50499d3967c8efb5)
+- docs: rework readme (#1703)
+- chore: automated Chocolatey publishing (#1697)
+- docs: Homebrew instructions (#1727) 
+- docs: brew cask has been deprecated (#1732) 
+- chore(i18n): locale sync (https://github.com/ipfs-shipyard/ipfs-desktop/commit/2f1631d2a1f83b98a2ef79bd2a8b37f9696b5a46)
+
+
+## [v0.13.2] - 2020-10-12
+- Web UI: [`v2.11.4`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.11.4)
+- IPFS: [`go-ipfs v0.7.0`](https://github.com/ipfs/go-ipfs/releases/tag/v0.7.0)
+
+### ✨ Features
+- Use `dweb.link` gateway when shareable link is copied to clipboard
+- Preserve filename when a single file is shared (screenshot, quick import)
+
+### 🛠 Fixes and Maintenance
+- fix: windows auto-update (#1679)
+- feat(ci): automated Snapcraft publishing (#1678)
+- fix: openItem errors (#1687)
+- feat: screenshot improvements (#1689)
+- fix: OS integrations for quick file import (#1691)
+- fix(windows): autoInstallOnAppQuit (#1682)
+
+#### :mega: Windows users may need to update manually
+
+Below PRs fixed autoupdate issues on Windows platform, however older versions may still struggle to update.
+
+-  fix: windows auto-update (#1679) 
+-  fix(windows): autoInstallOnAppQuit (#1682) 
+
+**If your node is unable to apply update to this version, please install [IPFS-Desktop-Setup-0.13.2.exe](https://github.com/ipfs-shipyard/ipfs-desktop/releases/download/v0.13.2/IPFS-Desktop-Setup-0.13.2.exe) manually.**
+From now on, Windows updates should work as expected.
+
+## [v0.13.1] - 2020-10-12
+This release is exactly the same as [v0.13.2].
+It exists so people can test Windows autoupdate fix on their own.
+
+## [v0.13.0] - 2020-10-08
+- Web UI: [`v2.11.4`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.11.4)
+- IPFS: [`go-ipfs v0.7.0`](https://github.com/ipfs/go-ipfs/releases/tag/v0.7.0)
+
+### ✨ Features
+- webui v2.11.4 ([RELEASE NOTES](https://github.com/ipfs-shipyard/ipfs-webui/releases/tag/v2.11.4))
+- go-ipfs v0.7.0 ([CHANGELOG](https://github.com/ipfs/go-ipfs/blob/master/CHANGELOG.md#v070-2020-09-22))
+- synchronized and added new locales
+
+### 🛠 Fixes and Maintenance
+- electron 9 (#1641, 42b069b)
+- fix: ensure small asar archive (#1660)
+- fix: uppercase Discovery.MDNS.enabled in default config (#1632)
+- ci: move to GitHub Actions (#1657)
+
+### 📣 Windows updates may be delayed
+Windows 10 users may need to wait a bit longer to see this release.
+We are working on a fix.
+
 ## [v0.12.2] - 2020-07-17
 - Web UI: [`v2.10.2`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.10.2)
 - IPFS: [`go-ipfs v0.6.0`](https://github.com/ipfs/go-ipfs/releases/tag/v0.6.0)
 
 ### ✨ Features
 - feat: ipfs-webui v2.10.2
+
 ## [v0.12.1] - 2020-07-07
 - Web UI: [`v2.9.0`](https://github.com/ipfs-shipyard/ipfs-webui/releases/v2.9.0)
 - IPFS: [`go-ipfs v0.6.0`](https://github.com/ipfs/go-ipfs/releases/tag/v0.6.0)

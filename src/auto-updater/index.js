@@ -1,32 +1,27 @@
-const { app, shell } = require('electron')
+const { shell } = require('electron')
 const { autoUpdater } = require('electron-updater')
 const i18n = require('i18next')
+const { ipcMain } = require('electron')
 const logger = require('../common/logger')
 const { notify } = require('../common/notify')
 const { showDialog } = require('../dialogs')
-const quitAndInstall = require('./quit-and-install')
+const macQuitAndInstall = require('./macos-quit-and-install')
+const { IS_MAC, IS_WIN, IS_APPIMAGE } = require('../common/consts')
+
+function isAutoUpdateSupported () {
+  // atm only macOS, windows and AppImage builds support autoupdate mechanism,
+  // everything else needs to be updated manually or via a third-party package manager
+  return IS_MAC || IS_WIN || IS_APPIMAGE
+}
 
 let feedback = false
-let installOnQuit = false
 
 function setup (ctx) {
+  // we download manually in 'update-available'
   autoUpdater.autoDownload = false
-  autoUpdater.autoInstallOnAppQuit = false
 
-  /**
-   * this replaces the autoInstallOnAppQuit feature of autoUpdater, which causes the app
-   * to uninstall itself if it is installed for all users on a windows system.
-   *
-   * More info: https://github.com/ipfs-shipyard/ipfs-desktop/issues/1514
-   * Should be removed once https://github.com/electron-userland/electron-builder/issues/4815 is resolved.
-   */
-  app.once('before-quit', ev => {
-    if (installOnQuit) {
-      ev.preventDefault()
-      installOnQuit = false
-      autoUpdater.quitAndInstall(false, false)
-    }
-  })
+  // mac requires manual upgrade, other platforms work out of the box
+  autoUpdater.autoInstallOnAppQuit = !IS_MAC
 
   autoUpdater.on('error', err => {
     logger.error(`[updater] ${err.toString()}`)
@@ -47,7 +42,7 @@ function setup (ctx) {
   })
 
   autoUpdater.on('update-available', async ({ version, releaseNotes }) => {
-    logger.info('[updater] update available, download will start')
+    logger.info(`[updater] update to ${version} available, download will start`)
 
     try {
       await autoUpdater.downloadUpdate()
@@ -96,13 +91,15 @@ function setup (ctx) {
   })
 
   autoUpdater.on('update-downloaded', ({ version }) => {
-    logger.info('[updater] update downloaded')
+    logger.info(`[updater] update to ${version} downloaded`)
 
-    installOnQuit = true
-
+    const { autoInstallOnAppQuit } = autoUpdater
     const doIt = () => {
+      // Do nothing if install is handled by upstream logic
+      if (autoInstallOnAppQuit) return
+      // Else, do custom install handling
       setImmediate(() => {
-        quitAndInstall(ctx)
+        if (IS_MAC) macQuitAndInstall(ctx)
       })
     }
 
@@ -120,7 +117,7 @@ function setup (ctx) {
       message: i18n.t('updateDownloadedDialog.message', { version }),
       type: 'info',
       buttons: [
-        i18n.t('updateDownloadedDialog.action')
+        (autoInstallOnAppQuit ? i18n.t('ok') : i18n.t('updateDownloadedDialog.action'))
       ]
     })
 
@@ -129,32 +126,41 @@ function setup (ctx) {
 }
 
 async function checkForUpdates () {
+  ipcMain.emit('updating')
   try {
     await autoUpdater.checkForUpdates()
   } catch (_) {
     // Ignore. The errors are already handled on 'error' event.
   }
+  ipcMain.emit('updatingEnded')
 }
 
 module.exports = async function (ctx) {
   if (process.env.NODE_ENV === 'development') {
-    ctx.checkForUpdates = () => {
+    ctx.manualCheckForUpdates = () => {
       showDialog({
         title: 'Not available in development',
         message: 'Yes, you called this function successfully.',
         buttons: [i18n.t('close')]
       })
     }
-
+    return
+  }
+  if (!isAutoUpdateSupported()) {
+    ctx.manualCheckForUpdates = () => {
+      shell.openExternal('https://github.com/ipfs-shipyard/ipfs-desktop/releases/latest')
+    }
     return
   }
 
   setup(ctx)
 
-  await checkForUpdates()
+  checkForUpdates() // background check
+
   setInterval(checkForUpdates, 43200000) // every 12 hours
 
-  ctx.checkForUpdates = () => {
+  // enable on-demand check via About submenu
+  ctx.manualCheckForUpdates = () => {
     feedback = true
     checkForUpdates()
   }

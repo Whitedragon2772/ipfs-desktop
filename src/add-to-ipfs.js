@@ -32,7 +32,7 @@ async function makeShareableObject (ipfs, results) {
     return results[0]
   }
 
-  let baseCID = await ipfs.object.new('unixfs-dir')
+  let baseCID = await ipfs.object.new({ template: 'unixfs-dir' })
 
   for (const { cid, path, size } of results) {
     baseCID = (await ipfs.object.patch.addLink(baseCID, {
@@ -45,7 +45,7 @@ async function makeShareableObject (ipfs, results) {
   return { cid: baseCID, path: '' }
 }
 
-function sendNotification (failures, successes, launch, path) {
+function sendNotification (failures, successes, launchWebUI, path) {
   let link, title, body, fn
 
   if (failures.length === 0) {
@@ -69,7 +69,9 @@ function sendNotification (failures, successes, launch, path) {
   }
 
   fn({ title, body }, () => {
-    launch(link)
+    // force refresh for Files screen to pick up newly added items
+    // https://github.com/ipfs/ipfs-desktop/issues/1763
+    launchWebUI(link, { forceRefresh: true })
   })
 }
 
@@ -87,11 +89,7 @@ module.exports = async function ({ getIpfsd, launchWebUI }, files) {
 
   await Promise.all(files.map(async file => {
     try {
-      let result = null
-      for await (const res of ipfsd.api.add(globSource(file, { recursive: true }))) {
-        result = res
-      }
-
+      const result = await ipfsd.api.add(globSource(file, { recursive: true }), { pin: false })
       await copyFile(ipfsd.api, result.cid, result.path)
       successes.push(result)
     } catch (e) {
@@ -107,7 +105,7 @@ module.exports = async function ({ getIpfsd, launchWebUI }, files) {
 
   const { cid, path } = await makeShareableObject(ipfsd.api, successes)
   sendNotification(failures, successes, launchWebUI, path)
-
-  const url = `https://ipfs.io/ipfs/${cid.toString()}`
+  const filename = path ? `?filename=${encodeURIComponent(path.split('/').pop())}` : ''
+  const url = `https://dweb.link/ipfs/${cid.toString()}${filename}`
   clipboard.writeText(url)
 }

@@ -155,6 +155,7 @@ const parseCfgMultiaddr = (addr) => (addr.includes('/http')
 
 async function checkIfAddrIsDaemon (addr) {
   const options = {
+    timeout: 3000, // 3s is plenty for localhost request
     method: 'POST',
     host: addr.address,
     port: addr.port,
@@ -162,7 +163,7 @@ async function checkIfAddrIsDaemon (addr) {
   }
 
   return new Promise(resolve => {
-    var req = http.request(options, function (r) {
+    const req = http.request(options, function (r) {
       resolve(r.statusCode === 200)
     })
 
@@ -205,7 +206,7 @@ async function checkPortsArray (ipfsd, addrs) {
       })
 
       if (opt === 0) {
-        shell.openItem(join(ipfsd.path, 'config'))
+        shell.openPath(join(ipfsd.path, 'config'))
       }
 
       throw new Error('ports already being used')
