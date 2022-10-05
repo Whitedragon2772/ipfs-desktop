@@ -73,15 +73,21 @@
     "tmp": "0.2.1",
     "xvfb-maybe": "^0.2.1"
   },
-  "dependencies": {
+   "dependencies": {
     "countly-sdk-nodejs": "^20.11.0",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.0.1",
     "electron-updater": "4.3.9",
     "fix-path": "^3.0.0",
+    "dependabot/npm_and_yarn/fs-extra-9.0.1"
+    "fs-extra": "^9.0.1",
+    "go-ipfs-dep": "0.6.0",
+    "i18next": "^19.4.4",
+
     "fs-extra": "^10.0.0",
     "go-ipfs": "0.9.1",
     "i18next": "^20.6.0",
+    main
     "i18next-electron-language-detector": "0.0.10",
     "i18next-icu": "^2.0.3",
     "i18next-node-fs-backend": "^2.1.3",
